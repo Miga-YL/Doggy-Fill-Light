@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小狗补光灯</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    #color-display {
+      flex: 1;
+      transition: background-color 0.3s;
+    }
+    #controls {
+      position: fixed;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 250px;
+      background-color: #f0f0f0;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s;
+    }
+    #controls.open {
+      transform: translateX(0);
+    }
+    .preset {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .preset button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .slider-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="range"] {
+      width: 100%;
+    }
+    #toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    #toggle-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div id="color-display"></div>
+  <button id="toggle-btn">改变颜色</button>
+  <div id="controls">
+    <h2>预设色</h2>
+    <div class="preset">
+      <button style="background-color: red;" onclick="setColor(255, 0, 0)"></button>
+      红
+    </div>
+    <div class="preset">
+      <button style="background-color: green;" onclick="setColor(0, 255, 0)"></button>
+      绿
+    </div>
+    <div class="preset">
+      <button style="background-color: blue;" onclick="setColor(0, 0, 255)"></button>
+      蓝
+    </div>
+    <div class="preset">
+      <button style="background-color: yellow;" onclick="setColor(255, 255, 0)"></button>
+      黄
+    </div>
+    <h2>RGB自定义</h2>
+    <div class="slider-group">
+      <label for="red">R</label>
+      <input type="range" id="red" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+    <div class="slider-group">
+      <label for="green">G</label>
+      <input type="range" id="green" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+    <div class="slider-group">
+      <label for="blue">B</label>
+      <input type="range" id="blue" min="0" max="255" value="0" oninput="updateColor()">
+    </div>
+  </div>
+  <script>
+    const colorDisplay = document.getElementById('color-display');
+    const redSlider = document.getElementById('red');
+    const greenSlider = document.getElementById('green');
+    const blueSlider = document.getElementById('blue');
+    const controls = document.getElementById('controls');
+    const toggleBtn = document.getElementById('toggle-btn');
+
+    // 初始色
+    setColor(0, 0, 0);
+
+    // 侧边栏    
+    toggleBtn.addEventListener('click', () => {
+      controls.classList.toggle('open');
+    });
+
+    function setColor(r, g, b) {
+      redSlider.value = r;
+      greenSlider.value = g;
+      blueSlider.value = b;
+      updateColor();
+    }
+
+    function updateColor() {
+      const r = redSlider.value;
+      const g = greenSlider.value;
+      const b = blueSlider.value;
+      colorDisplay.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+  </script>
+</body>
+</html>
